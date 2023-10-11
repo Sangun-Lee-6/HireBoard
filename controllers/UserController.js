@@ -41,8 +41,25 @@ const getUser = async (req, res) => {
   }
 };
 
+const updateUser = async (req, res) => {
+  try {
+    let UserId = req.params.id;
+    const updatedRows = await User.update(req.body, { where: { UserId: UserId } });
+
+    if (updatedRows[0] === 0) {
+      res.status(404).send('User not found');
+    } else {
+      res.status(200).send('User updated successfully');
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).send('Error updating user');
+  }
+};
+
 module.exports = {
   addUser,
   getAllUsers,
-  getUser
+  getUser,
+  updateUser,
 };
