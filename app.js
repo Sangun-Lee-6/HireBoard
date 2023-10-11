@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
+const router = require("./routers/UserRouter.js");
 
 var corOptions = {
   origin: "https://localhost:3000",
@@ -14,9 +15,7 @@ app.use(express.urlencoded({ extended: false }));
 
 require("./models/index");
 
-app.get("/", (req, res) => {
-  res.json({ message: "hello world" });
-});
+app.use("/api", router);
 
 app.listen(app.get("port"), () => {
   console.log(app.get("port"), "번 포트에서 대기 중");
