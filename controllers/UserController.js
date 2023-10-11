@@ -57,9 +57,26 @@ const updateUser = async (req, res) => {
   }
 };
 
+const deleteUser = async (req, res) => {
+  try {
+    let UserId = req.params.id;
+    const deletedRows = await User.destroy({ where: { UserId: UserId } });
+
+    if (deletedRows === 0) {
+      res.status(404).send('User not found');
+    } else {
+      res.status(200).send('User is deleted');
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).send('Error deleting user');
+  }
+};
+
 module.exports = {
   addUser,
   getAllUsers,
   getUser,
   updateUser,
+  deleteUser,
 };
