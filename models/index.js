@@ -1,7 +1,10 @@
-const { Sequelize, DataTypes } = require("sequelize");
+const { Sequelize } = require("sequelize");
+const initModels = require('./init-models'); // init-models.js에서 메서드를 가져온다.
+
 const env = process.env.NODE_ENV || "development";
 const config = require("../config/config.json")[env];
-const db = {};
+
+// new Sequelize를 통해 MySQL 연결 객체를 생성한다.
 const sequelize = new Sequelize(
   config.database,
   config.username,
@@ -9,9 +12,8 @@ const sequelize = new Sequelize(
   config
 );
 
-db.Sequelize = Sequelize;
-db.sequelize = sequelize;
-// db.users = require("./User")(sequelize, DataTypes);
+// 모델과 테이블간의 관계가 맺어진다.
+const models = initModels(sequelize);
 
 sequelize
   .sync({ force: false })
@@ -22,4 +24,4 @@ sequelize
     console.error(err);
   });
 
-module.exports = db;
+module.exports = models;
