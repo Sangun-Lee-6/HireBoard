@@ -1,5 +1,5 @@
 const db = require("../models");
-const User = db.tb_user; // 'tb_user' 모델 불러오기
+const User = db.tb_user;
 
 const addUser = async (req, res) => {
   try {
