@@ -16,6 +16,17 @@ const addUser = async (req, res) => {
   }
 };
 
+const getAllUsers = async (req, res) => {
+  try {
+    let users = await User.findAll({});
+    res.status(200).send(users);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send('Error fetching users');
+  }
+};
+
 module.exports = {
   addUser,
+  getAllUsers,
 };
