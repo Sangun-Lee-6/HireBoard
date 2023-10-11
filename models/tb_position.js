@@ -2,6 +2,7 @@ const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('tb_position', {
     PositionId: {
+      autoIncrement: true,
       type: DataTypes.TINYINT,
       allowNull: false,
       primaryKey: true
