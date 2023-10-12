@@ -1,5 +1,5 @@
 const { Sequelize } = require("sequelize");
-const initModels = require('./init-models'); // init-models.js에서 메서드를 가져온다.
+const initModels = require("./init-models"); // init-models.js에서 메서드를 가져온다.
 
 const env = process.env.NODE_ENV || "development";
 const config = require("../config/config.json")[env];
@@ -24,4 +24,7 @@ sequelize
     console.error(err);
   });
 
-module.exports = models;
+module.exports = {
+  ...models,
+  sequelize,
+};
