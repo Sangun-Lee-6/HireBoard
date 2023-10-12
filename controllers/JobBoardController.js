@@ -52,8 +52,19 @@ const deleteJobBoard = async (req, res) => {
   }
 };
 
+const getAllJobBoards = async (req, res) => {
+  try {
+    let jobboards = await JobBoard.findAll({});
+    res.status(200).send(jobboards);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send('Error fetching jobboards');
+  }
+};
+
 module.exports = {
   registerJobBoard,
   updateJobBoard,
   deleteJobBoard,
+  getAllJobBoards,
 };
