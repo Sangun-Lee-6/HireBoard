@@ -15,7 +15,7 @@ const applyJobBoard = async (req, res) => {
     });
 
     if (existingApplication) {
-      return res.status(400).send("You have already applied for this job.");
+      return res.status(409).send("You have already applied for this job.");
     }
 
     const application = await Apply.create({
@@ -23,7 +23,7 @@ const applyJobBoard = async (req, res) => {
       JobBoardId: jobBoardId,
     });
 
-    res.status(200).send(application);
+    res.status(201);
   } catch (err) {
     console.log(err);
     res.status(500).send("Error applying for the job");
