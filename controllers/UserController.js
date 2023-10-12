@@ -30,7 +30,7 @@ const getAllUsers = async (req, res) => {
 
 const getUser = async (req, res) => {
   try {
-    let UserId = req.params.id;
+    let UserId = req.params.UserId;
     let user = await User.findOne({ where: { UserId: UserId } });
     if (user) {
       res.status(200).send(user);
