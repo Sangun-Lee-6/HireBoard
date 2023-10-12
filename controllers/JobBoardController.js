@@ -1,7 +1,6 @@
 const db = require("../models");
 const { sequelize } = db;
 const JobBoard = db.tb_jobboard;
-const Company = db.tb_company;
 const {
   getAllJobBoardsQuery,
   getJobBoardQuery,
@@ -20,7 +19,7 @@ const registerJobBoard = async (req, res) => {
     };
 
     const jobBoard = await JobBoard.create(info);
-    res.status(201);
+    res.sendStatus(201);
   } catch (err) {
     console.log(err);
     res.status(500).send("Error adding job board");
@@ -37,7 +36,7 @@ const updateJobBoard = async (req, res) => {
     if (updatedRows[0] === 0) {
       res.status(404).send("JobBoard not found");
     } else {
-      res.status(201);
+      res.sendStatus(201);
     }
   } catch (err) {
     console.log(err);
@@ -55,7 +54,7 @@ const deleteJobBoard = async (req, res) => {
     if (deletedRows === 0) {
       res.status(404).send("JobBoard not found");
     } else {
-      res.status(200);
+      res.sendStatus(200);
     }
   } catch (err) {
     console.log(err);
