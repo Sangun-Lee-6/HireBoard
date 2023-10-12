@@ -9,7 +9,7 @@ const addUser = async (req, res) => {
     };
 
     const user = await User.create(info);
-    res.status(200).send(user);
+    res.status(201);
   } catch (err) {
     console.log(err);
     res.status(500).send("Error adding user");
@@ -49,7 +49,7 @@ const updateUser = async (req, res) => {
     if (updatedRows[0] === 0) {
       res.status(404).send('User not found');
     } else {
-      res.status(200).send('User updated successfully');
+      res.status(201);
     }
   } catch (err) {
     console.log(err);
