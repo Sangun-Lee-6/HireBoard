@@ -36,7 +36,24 @@ const updateJobBoard = async (req, res) => {
   }
 };
 
+const deleteJobBoard = async (req, res) => {
+  try {
+    let JobBoardId = req.params.JobBoardId;
+    const deletedRows = await JobBoard.destroy({ where: { JobBoardId: JobBoardId } });
+
+    if (deletedRows === 0) {
+      res.status(404).send('JobBoard not found');
+    } else {
+      res.status(200).send('JobBoard is deleted');
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).send('Error deleting job board');
+  }
+};
+
 module.exports = {
   registerJobBoard,
   updateJobBoard,
+  deleteJobBoard,
 };
