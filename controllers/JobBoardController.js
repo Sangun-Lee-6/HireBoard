@@ -2,6 +2,7 @@ const db = require("../models");
 const { sequelize } = db;
 const JobBoard = db.tb_jobboard;
 const Company = db.tb_company;
+const { getAllJobBoardsQuery } = require("../sqlQueries/jobBoardQueries");
 
 const registerJobBoard = async (req, res) => {
   try {
@@ -79,26 +80,7 @@ const deleteJobBoard = async (req, res) => {
 
 const getAllJobBoards = async (req, res) => {
   try {
-    const query = `
-      SELECT 
-        jb.JobBoardId,
-        jb.JobBoardName,
-        c.CompanyName,
-        c.Country,
-        c.Region,
-        jb.RequiredTech,
-        jb.JobDescription,
-        jb.RecruitmentReward,
-        part.partName,
-        exp.experienceLevelName
-      FROM tb_jobboard jb
-      JOIN tb_company c ON jb.CompanyId = c.CompanyId
-      JOIN tb_position p ON jb.PositionId = p.positionId
-      JOIN tb_part part ON p.partId = part.partId
-      JOIN tb_experienceLevel exp ON p.experienceLevelId = exp.experienceLevelId
-    `;
-
-    let jobboards = await sequelize.query(query, {
+    let jobboards = await sequelize.query(getAllJobBoardsQuery, {
       type: sequelize.QueryTypes.SELECT,
     });
 
@@ -108,7 +90,6 @@ const getAllJobBoards = async (req, res) => {
     res.status(500).send("Error fetching jobboards");
   }
 };
-
 
 module.exports = {
   registerJobBoard,
