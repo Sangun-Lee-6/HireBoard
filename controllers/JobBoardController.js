@@ -20,6 +20,23 @@ const registerJobBoard = async (req, res) => {
   }
 };
 
+const updateJobBoard = async (req, res) => {
+  try {
+    let JobBoardId = req.params.JobBoardId;
+    const updatedRows = await JobBoard.update(req.body, { where: { JobBoardId: JobBoardId } });
+
+    if (updatedRows[0] === 0) {
+      res.status(404).send('JobBoard not found');
+    } else {
+      res.status(200).send('JobBoard updated successfully');
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).send('Error updating user');
+  }
+};
+
 module.exports = {
   registerJobBoard,
+  updateJobBoard,
 };
