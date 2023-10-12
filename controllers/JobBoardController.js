@@ -2,7 +2,11 @@ const db = require("../models");
 const { sequelize } = db;
 const JobBoard = db.tb_jobboard;
 const Company = db.tb_company;
-const { getAllJobBoardsQuery, getJobBoardQuery, searchJobBoardQuery  } = require("../sqlQueries/jobBoardQueries");
+const {
+  getAllJobBoardsQuery,
+  getJobBoardQuery,
+  searchJobBoardQuery,
+} = require("../sqlQueries/jobBoardQueries");
 
 const registerJobBoard = async (req, res) => {
   try {
@@ -102,20 +106,20 @@ const getJobBoard = async (req, res) => {
     if (jobBoards && jobBoards.length > 0) {
       res.status(200).send(jobBoards[0]);
     } else {
-      res.status(404).send('JobBoard not found');
+      res.status(404).send("JobBoard not found");
     }
   } catch (err) {
     console.log(err);
-    res.status(500).send('Error fetching jobboard');
+    res.status(500).send("Error fetching jobboard");
   }
 };
 
 const searchJobBoard = async (req, res) => {
   try {
-    let keyword = `%${req.params.keyword}%`;  // Use req.params.keyword
+    let keyword = `%${req.params.keyword}%`; // Use req.params.keyword
     const jobboards = await sequelize.query(searchJobBoardQuery, {
       type: sequelize.QueryTypes.SELECT,
-      replacements: { searchTerm: keyword }
+      replacements: { searchTerm: keyword },
     });
     res.status(200).send(jobboards);
   } catch (err) {
@@ -124,14 +128,11 @@ const searchJobBoard = async (req, res) => {
   }
 };
 
-
-
-
 module.exports = {
   registerJobBoard,
   updateJobBoard,
   deleteJobBoard,
   getAllJobBoards,
   getJobBoard,
-  searchJobBoard
+  searchJobBoard,
 };
