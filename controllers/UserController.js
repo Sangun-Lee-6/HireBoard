@@ -7,9 +7,11 @@ const addUser = async (req, res) => {
       UserName: req.body.username,
       Password: req.body.password,
     };
+    
+    console.log(info.UserName);
 
     const user = await User.create(info);
-    res.status(201);
+    res.sendStatus(201);
   } catch (err) {
     console.log(err);
     res.status(500).send("Error adding user");
