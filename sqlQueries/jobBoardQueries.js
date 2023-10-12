@@ -6,7 +6,6 @@ const getAllJobBoardsQuery = `
     c.Country,
     c.Region,
     jb.RequiredTech,
-    jb.JobDescription,
     jb.RecruitmentReward,
     part.partName,
     exp.experienceLevelName
