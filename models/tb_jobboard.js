@@ -24,7 +24,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     },
     JobDescription: {
-      type: DataTypes.STRING(45),
+      type: DataTypes.STRING(600),
       allowNull: true
     },
     RecruitmentReward: {
