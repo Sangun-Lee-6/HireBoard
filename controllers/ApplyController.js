@@ -4,8 +4,8 @@ const Apply = db.tb_apply;
 
 const applyJobBoard = async (req, res) => {
   try {
-    const userId = req.body.userId;
-    const jobBoardId = req.body.jobBoardId;
+    const userId = req.body.UserId;
+    const jobBoardId = req.body.JobBoardId;
 
     const existingApplication = await Apply.findOne({
       where: {
@@ -23,7 +23,7 @@ const applyJobBoard = async (req, res) => {
       JobBoardId: jobBoardId,
     });
 
-    res.status(201);
+    res.sendStatus(201);
   } catch (err) {
     console.log(err);
     res.status(500).send("Error applying for the job");
