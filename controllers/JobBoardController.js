@@ -2,7 +2,7 @@ const db = require("../models");
 const { sequelize } = db;
 const JobBoard = db.tb_jobboard;
 const Company = db.tb_company;
-const { getAllJobBoardsQuery } = require("../sqlQueries/jobBoardQueries");
+const { getAllJobBoardsQuery, getJobBoardQuery  } = require("../sqlQueries/jobBoardQueries");
 
 const registerJobBoard = async (req, res) => {
   try {
@@ -91,9 +91,29 @@ const getAllJobBoards = async (req, res) => {
   }
 };
 
+const getJobBoard = async (req, res) => {
+  try {
+    let JobBoardId = req.params.JobBoardId;
+    let jobBoards = await sequelize.query(getJobBoardQuery, {
+      type: sequelize.QueryTypes.SELECT,
+      replacements: { JobBoardId: JobBoardId },
+    });
+
+    if (jobBoards && jobBoards.length > 0) {
+      res.status(200).send(jobBoards[0]);
+    } else {
+      res.status(404).send('JobBoard not found');
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).send('Error fetching jobboard');
+  }
+};
+
 module.exports = {
   registerJobBoard,
   updateJobBoard,
   deleteJobBoard,
   getAllJobBoards,
+  getJobBoard
 };
