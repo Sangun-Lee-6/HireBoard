@@ -45,7 +45,7 @@ const getUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
   try {
-    let UserId = req.params.id;
+    let UserId = req.params.UserId;
     const updatedRows = await User.update(req.body, { where: { UserId: UserId } });
 
     if (updatedRows[0] === 0) {
@@ -61,7 +61,7 @@ const updateUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   try {
-    let UserId = req.params.id;
+    let UserId = req.params.UserId;
     const deletedRows = await User.destroy({ where: { UserId: UserId } });
 
     if (deletedRows === 0) {
