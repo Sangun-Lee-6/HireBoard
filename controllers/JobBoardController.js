@@ -2,7 +2,7 @@ const db = require("../models");
 const { sequelize } = db;
 const JobBoard = db.tb_jobboard;
 const Company = db.tb_company;
-const { getAllJobBoardsQuery, getJobBoardQuery  } = require("../sqlQueries/jobBoardQueries");
+const { getAllJobBoardsQuery, getJobBoardQuery, searchJobBoardQuery  } = require("../sqlQueries/jobBoardQueries");
 
 const registerJobBoard = async (req, res) => {
   try {
@@ -110,10 +110,28 @@ const getJobBoard = async (req, res) => {
   }
 };
 
+const searchJobBoard = async (req, res) => {
+  try {
+    let keyword = `%${req.params.keyword}%`;  // Use req.params.keyword
+    const jobboards = await sequelize.query(searchJobBoardQuery, {
+      type: sequelize.QueryTypes.SELECT,
+      replacements: { searchTerm: keyword }
+    });
+    res.status(200).send(jobboards);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error searching jobboards");
+  }
+};
+
+
+
+
 module.exports = {
   registerJobBoard,
   updateJobBoard,
   deleteJobBoard,
   getAllJobBoards,
-  getJobBoard
+  getJobBoard,
+  searchJobBoard
 };
