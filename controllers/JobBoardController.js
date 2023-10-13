@@ -53,6 +53,10 @@ const updateJobBoard = async (req, res) => {
         .send("Invalid JobBoardId. It should be an integer.");
     }
 
+    /**에러처리: CompanyId를 수정하려는 경우 400 */
+    if (req.body.CompanyId)
+      return res.status(400).send("CompanyId cannot be modified.");
+
     const updatedRows = await JobBoard.update(req.body, {
       where: { JobBoardId: JobBoardId },
     });
