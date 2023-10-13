@@ -39,6 +39,7 @@
 - [x] ORM 사용하여 구현.(Sequelize 사용)
 - [x] RDBMS 사용.(MySQL 사용)
 
+
 ## 구현 과정
 ### - ERD
 
