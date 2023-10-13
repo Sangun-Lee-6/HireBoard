@@ -27,3 +27,12 @@
 ### 필수 기술요건
 - [x] ORM 사용하여 구현.(Sequelize 사용)
 - [x] RDBMS 사용.(MySQL 사용)
+
+## 구현 과정
+### ERD
+
+![ERD Image](ERD.png)
+
+### API 명세서
+
+[API Documentation](https://documenter.getpostman.com/view/25690003/2s9YR3dbDy)
