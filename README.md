@@ -65,6 +65,13 @@
 - 사용자의 채용공고 지원 상태를 효과적으로 관리.
 - 쿼리 최적화와 관련된 고려 사항 반영.
 
+### - 기능 구현 특이사항
+
+#### `memory-cache`를 활용한 에러 처리
+
+- 사용자가 연속적으로 중복된 수정 요청을 보내는 것을 방지하기 위해 `memory-cache`를 사용하여 최근의 요청을 캐싱
+
 ### - API 명세서
 
 [API Documentation](https://documenter.getpostman.com/view/25690003/2s9YR3dbDy)
+
