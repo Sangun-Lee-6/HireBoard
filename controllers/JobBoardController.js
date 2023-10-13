@@ -162,6 +162,8 @@ const getJobBoard = async (req, res) => {
     if (!existingJobBoard) {
       return res.status(404).send("JobBoard not found");
     }
+
+    /**채용공고 조회 */
     let jobBoards = await sequelize.query(getJobBoardQuery, {
       type: sequelize.QueryTypes.SELECT,
       replacements: { JobBoardId: JobBoardId },
@@ -180,7 +182,7 @@ const getJobBoard = async (req, res) => {
 
 const searchJobBoard = async (req, res) => {
   try {
-    let keyword = `%${req.params.keyword}%`; // Use req.params.keyword
+    let keyword = `%${req.params.keyword}%`;
     const jobboards = await sequelize.query(searchJobBoardQuery, {
       type: sequelize.QueryTypes.SELECT,
       replacements: { searchTerm: keyword },
