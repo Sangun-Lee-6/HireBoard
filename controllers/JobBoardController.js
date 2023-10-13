@@ -68,12 +68,19 @@ const updateJobBoard = async (req, res) => {
       return res.status(400).send("You've sent the same modification request.");
     }
 
+    /**에러처리: JobBoardId가 DB에 없다면 404 */
+    const existingJobBoard = await JobBoard.findOne({ where: { JobBoardId: JobBoardId } });
+
+    if (!existingJobBoard) {
+      return res.status(404).send("JobBoard not found");
+    }
+
     const updatedRows = await JobBoard.update(req.body, {
       where: { JobBoardId: JobBoardId },
     });
 
     if (updatedRows[0] === 0) {
-      res.status(404).send("JobBoard not found");
+      res.status(404).send("No changes were made");
     } else {
       cache.put(currentRequestCacheKey, req.body);
       res.sendStatus(201);
