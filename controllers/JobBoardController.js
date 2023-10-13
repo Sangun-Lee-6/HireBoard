@@ -45,6 +45,14 @@ const registerJobBoard = async (req, res) => {
 const updateJobBoard = async (req, res) => {
   try {
     let JobBoardId = req.params.JobBoardId;
+
+    /**에러처리: JobBoardId가 정수가 아닌 경우 400 */
+    if (!Number.isInteger(parseInt(JobBoardId))) {
+      return res
+        .status(400)
+        .send("Invalid JobBoardId. It should be an integer.");
+    }
+
     const updatedRows = await JobBoard.update(req.body, {
       where: { JobBoardId: JobBoardId },
     });
