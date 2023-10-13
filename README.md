@@ -35,11 +35,14 @@
 
 #### 1. TB_Position의 PartId와 ExperienceLevelId의 관계 설정
 
-`TB_Position` 테이블에서 `PartId`와 `ExperienceLevelId`를 외래 키로 설정하였습니다. 이를 참조하기 위해 `TB_Part` 테이블과 `TB_ExperienceLevel` 테이블을 각각 생성하였습니다. `TB_Part`에는 `FE`, `BE`, `AI`, `etc` 와 같은 4개의 레코드를 넣었으며, `TB_ExperienceLevel`에도 `rookie`, `junior`, `senior` 와 같은 3개의 레코드를 넣었습니다.
+- `TB_Position` 테이블에서 `PartId`와 `ExperienceLevelId`를 외래 키로 설정하고 이를 참조하기 위해 `TB_Part` 테이블과 `TB_ExperienceLevel` 테이블을 각각 생성
+- 테이블 생성 후 도메인에 해당하는 레코드를 미리 넣었음
+  - `TB_Part`:  `FE`, `BE`, `AI`, `etc`
+  - `TB_ExperienceLevel`: `rookie`, `junior`, `senior`
 
-#### 이유:
-- `Part`와 `ExperienceLevel`은 각각 도메인이 명확히 정해져 있습니다.
-- 이러한 방식을 통해 유지 보수를 용이하게 하고, 잘못된 입력이나 오타를 사전에 방지할 수 있습니다.
+##### 이유:
+- `Part`와 `ExperienceLevel`은 각각 도메인이 명확히 정해져 있음
+- 이러한 방식을 통해 유지 보수를 용이하게 하고, 잘못된 입력이나 오타를 사전에 방지
 
 ### API 명세서
 
