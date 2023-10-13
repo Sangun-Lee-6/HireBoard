@@ -69,12 +69,15 @@ const updateJobBoard = async (req, res) => {
     }
 
     /**에러처리: JobBoardId가 DB에 없다면 404 */
-    const existingJobBoard = await JobBoard.findOne({ where: { JobBoardId: JobBoardId } });
+    const existingJobBoard = await JobBoard.findOne({
+      where: { JobBoardId: JobBoardId },
+    });
 
     if (!existingJobBoard) {
       return res.status(404).send("JobBoard not found");
     }
 
+    /**채용공고 수정 */
     const updatedRows = await JobBoard.update(req.body, {
       where: { JobBoardId: JobBoardId },
     });
@@ -94,6 +97,24 @@ const updateJobBoard = async (req, res) => {
 const deleteJobBoard = async (req, res) => {
   try {
     let JobBoardId = req.params.JobBoardId;
+
+    /**에러처리: JobBoardId가 정수가 아닌 경우 400 */
+    if (!Number.isInteger(parseInt(JobBoardId))) {
+      return res
+        .status(400)
+        .send("Invalid JobBoardId. It should be an integer.");
+    }
+
+    /**에러처리: JobBoardId가 DB에 없다면 404 */
+    const existingJobBoard = await JobBoard.findOne({
+      where: { JobBoardId: JobBoardId },
+    });
+
+    if (!existingJobBoard) {
+      return res.status(404).send("JobBoard not found");
+    }
+
+    /**채용공고 삭제 */
     const deletedRows = await JobBoard.destroy({
       where: { JobBoardId: JobBoardId },
     });
