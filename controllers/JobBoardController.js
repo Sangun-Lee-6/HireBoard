@@ -11,12 +11,28 @@ const registerJobBoard = async (req, res) => {
   try {
     let info = {
       JobBoardName: req.body.JobBoardName,
-      CompanyId: req.body.CompanyId, // fk
+      CompanyId: req.body.CompanyId,
       RequiredTech: req.body.RequiredTech,
       JobDescription: req.body.JobDescription,
       RecruitmentReward: req.body.RecruitmentReward,
-      PositionId: req.body.PositionId, // fk
+      PositionId: req.body.PositionId,
     };
+
+    /**에러처리: request에 빠진 항목이 있다면 400 */
+    if (!info.JobBoardName) return res.sendStatus(400);
+    if (!info.CompanyId) return res.sendStatus(400);
+    if (!info.RequiredTech) return res.sendStatus(400);
+    if (!info.JobDescription) return res.sendStatus(400);
+    if (!info.RecruitmentReward) return res.sendStatus(400);
+    if (!info.PositionId) return res.sendStatus(400);
+
+    /**에러처리: JobBoardName이 중복된다면 409 */
+    const existingJobBoard = await JobBoard.findOne({
+      where: { JobBoardName: info.JobBoardName },
+    });
+    if (existingJobBoard) {
+      return res.status(409).send("JobBoardName is already in use");
+    }
 
     const jobBoard = await JobBoard.create(info);
     res.sendStatus(201);
