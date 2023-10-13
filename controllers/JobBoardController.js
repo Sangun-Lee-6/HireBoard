@@ -1,6 +1,7 @@
 const db = require("../models");
 const { sequelize } = db;
 const JobBoard = db.tb_jobboard;
+const cache = require("memory-cache");
 const {
   getAllJobBoardsQuery,
   getJobBoardQuery,
@@ -57,6 +58,16 @@ const updateJobBoard = async (req, res) => {
     if (req.body.CompanyId)
       return res.status(400).send("CompanyId cannot be modified.");
 
+    /**에러처리: 수정된 내용을 또 보내는 경우 400 */
+    const currentRequestCacheKey = `jobboard-${JobBoardId}-${JSON.stringify(
+      req.body
+    )}`;
+    const previousRequestBody = cache.get(currentRequestCacheKey);
+
+    if (previousRequestBody) {
+      return res.status(400).send("You've sent the same modification request.");
+    }
+
     const updatedRows = await JobBoard.update(req.body, {
       where: { JobBoardId: JobBoardId },
     });
@@ -64,6 +75,7 @@ const updateJobBoard = async (req, res) => {
     if (updatedRows[0] === 0) {
       res.status(404).send("JobBoard not found");
     } else {
+      cache.put(currentRequestCacheKey, req.body);
       res.sendStatus(201);
     }
   } catch (err) {
