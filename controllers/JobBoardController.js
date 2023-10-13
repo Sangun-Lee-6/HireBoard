@@ -130,25 +130,6 @@ const deleteJobBoard = async (req, res) => {
   }
 };
 
-/**ORM을 사용하니 코드가 복잡해졌음, 여기서 원하는 데이터 형태로 가져오려면 가공을 더 해야했음 */
-// const getAllJobBoards = async (req, res) => {
-//   try {
-//     let jobboards = await JobBoard.findAll({
-//       include: [
-//         {
-//           model: Company,
-//           as: 'Company',
-//           attributes: { exclude: ["CompanyId"] },
-//         },
-//       ],
-//     });
-//     res.status(200).send(jobboards);
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).send("Error fetching jobboards");
-//   }
-// };
-
 const getAllJobBoards = async (req, res) => {
   try {
     let jobboards = await sequelize.query(getAllJobBoardsQuery, {
@@ -165,6 +146,22 @@ const getAllJobBoards = async (req, res) => {
 const getJobBoard = async (req, res) => {
   try {
     let JobBoardId = req.params.JobBoardId;
+
+    /**에러처리: JobBoardId가 정수가 아닌 경우 400 */
+    if (!Number.isInteger(parseInt(JobBoardId))) {
+      return res
+        .status(400)
+        .send("Invalid JobBoardId. It should be an integer.");
+    }
+
+    /**에러처리: JobBoardId가 DB에 없다면 404 */
+    const existingJobBoard = await JobBoard.findOne({
+      where: { JobBoardId: JobBoardId },
+    });
+
+    if (!existingJobBoard) {
+      return res.status(404).send("JobBoard not found");
+    }
     let jobBoards = await sequelize.query(getJobBoardQuery, {
       type: sequelize.QueryTypes.SELECT,
       replacements: { JobBoardId: JobBoardId },
